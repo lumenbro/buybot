@@ -1,0 +1,4 @@
+.env
+stellar_keypair.txt
+__pycache__/
+*.pyc
