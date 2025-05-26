@@ -149,20 +149,25 @@ Note the Public Key (starts with G) for funding.
 6. Configure the Bot
 
 Edit .env File:
-In VS Code, double-click .env in C:\Users\YourUsername\BUY BOT.
-Copy and paste this template:SECRET_KEY=your_secret_key_here
+In VS Code, double-click .env in C:\Users\YourUsername\BUY BOT. If .env doesn’t exist, create it:
+Right-click in the Explorer pane, select “New File,” and name it .env.
+
+
+Copy and paste the following template into .env:SECRET_KEY=your_secret_key_here
 ASSET_CODE=LMNR
 ASSET_ISSUER=GALUVE2YREE6NU4T2746XL7XORCEY5NVDJ7WADGWANUZWQJZ3PTP5PHB
-TRADE_INTERVAL=30
+TRADE_INTERVAL=60
 BUY_ASSET_AMOUNT=100
 SELL_ASSET_AMOUNT=100
 BUY_SELL_CYCLE=1
 
 
+Alternatively, if an .env.example file is provided, copy it, rename the copy to .env, and edit it.
+Update the following fields:
 SECRET_KEY: Paste your secret key from stellar_keypair.txt.
 ASSET_CODE: The asset to trade (e.g., LMNR).
 ASSET_ISSUER: The asset issuer’s public key (e.g., for LMNR).
-TRADE_INTERVAL: Seconds between trades (e.g., 30).
+TRADE_INTERVAL: Seconds between trades (e.g., 60).
 BUY_ASSET_AMOUNT: Amount of the asset to buy per trade (e.g., 100 LMNR).
 SELL_ASSET_AMOUNT: Amount of the asset to sell per trade (e.g., 100 LMNR).
 BUY_SELL_CYCLE: Controls the buy/sell pattern:
@@ -170,6 +175,8 @@ BUY_SELL_CYCLE: Controls the buy/sell pattern:
 2: Buy, buy, sell, buy, buy, sell.
 0: Sell only (no buys).
 -1: Buy only (no sells).
+
+
 
 
 Save the file (Ctrl+S).
@@ -256,7 +263,8 @@ Files Included
 buybot.py: The main bot script.
 newwallet.py: Generates a Stellar keypair.
 requirements.txt: Lists required Python libraries.
-.env: Configuration file for your settings.
+.env: Configuration file for your settings (create this).
+.env.example: Template for .env (optional, copy and rename to .env).
 README.md: This guide.
 .gitignore: Excludes sensitive files (e.g., stellar_keypair.txt).
 
@@ -266,19 +274,3 @@ Secret Key: Store .env and stellar_keypair.txt securely. If compromised, someone
 Backup: Save your secret key in a safe place (e.g., password manager).
 Liquidity: Ensure the asset has enough trading activity to avoid failed trades.
 
-
-In the .env file in the same folder as buybot.md, add the following per these instructions:
-example asset code: LMNR 
-example issuer: GALUVE2YREE6NU4T2746XL7XORCEY5NVDJ7WADGWANUZWQJZ3PTP5PHB
-
-SECRET_KEY: Your Stellar secret key (starts with S, 56 characters long).
-ASSET_CODE: The code of the asset you want to trade (e.g., KXLM).
-ASSET_ISSUER: The public key of the asset’s issuer (starts with G, 56 characters long).
-TRADE_INTERVAL: Time between trades in seconds (e.g., 60 for 1 minute).
-BUY_ASSET_AMOUNT: Amount of the asset to buy per trade (e.g., 10 for 10 units of the asset).
-SELL_ASSET_AMOUNT: Amount of the asset to sell per trade (e.g., 10 for 10 units of the asset
-BUY_SELL_CYCLE: Controls the buy/sell pattern:
-    1: Buy, sell, buy, sell (alternating).
-    2: Buy, buy, sell, buy, buy, sell.
-    0: Sell only (no buys).
-    -1: Buy only (no sells).
