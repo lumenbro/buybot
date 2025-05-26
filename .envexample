@@ -1,0 +1,26 @@
+# Your Stellar secret key (starts with S, 56 characters)
+SECRET_KEY=S...
+
+# The asset code you want to trade (e.g., KXLM)
+ASSET_CODE=LMNR
+
+# The issuer's public key for the asset (starts with G, 56 characters)
+ASSET_ISSUER=GALUVE2YREE6NU4T2746XL7XORCEY5NVDJ7WADGWANUZWQJZ3PTP5PHB
+
+# Time between trades in seconds (e.g., 60 for 1 minute)
+TRADE_INTERVAL=30
+
+# Amount of the asset (e.g., KXLM) to buy per trade, NOT XLM
+# The bot will use XLM to buy this amount of the asset
+BUY_ASSET_AMOUNT=100
+
+# Amount of the asset (e.g., KXLM) to sell per trade, NOT XLM
+# The bot will sell this amount to get XLM back
+SELL_ASSET_AMOUNT=100
+
+#BUY_SELL_CYCLE: Number of buy trades before one sell trade:
+# 1: Buy, sell, buy, sell (alternating).
+# 2: Buy, buy, sell, buy, buy, sell.
+# 0: Sell only (no buys).
+#-1: Buy only (no sells).
+BUY_SELL_CYCLE=1

@@ -95,24 +95,24 @@ The bot is hosted on GitHub. You’ll download it to your computer.
 
 Create a Project Folder:
 Open File Explorer (Win + E) and navigate to C:\Users\YourUsername.
-Right-click, select “New > Folder”, and name it BUY BOT.
+Right-click, select “New > Folder”, and name it BUYBOT.
 
 
 Clone the Repository:
 Open Command Prompt (press Win + S, type “cmd”, press Enter).
-Navigate to your folder by typing:cd C:\Users\YourUsername\BUY BOT
+Navigate to your folder by typing:cd C:\Users\YourUsername\BUYBOT
 
 Replace YourUsername with your Windows username.
-Type the following command and press Enter:git clone https://github.com/yourusername/stellar-trading-bot.git
+Type the following command and press Enter:git clone https://github.com/lumenbro/buybot.git
 
 (Replace yourusername with the actual GitHub username hosting the repository.)
-Wait for the download to complete. You’ll see files appear in C:\Users\YourUsername\BUY BOT\stellar-trading-bot.
+Wait for the download to complete. You’ll see files appear in C:\Users\YourUsername\BUY BOT\buybot
 
 
 Move Files (if needed):
-If you want files directly in C:\Users\YourUsername\BUY BOT, move the contents of C:\Users\YourUsername\BUY BOT\stellar-trading-bot to C:\Users\YourUsername\BUY BOT.
-In File Explorer, open C:\Users\YourUsername\BUY BOT\stellar-trading-bot, select all files (Ctrl+A), cut (Ctrl+X), go to C:\Users\YourUsername\BUY BOT, and paste (Ctrl+V).
-Delete the empty stellar-trading-bot folder.
+If you want files directly in C:\Users\YourUsername\BUYBOT, move the contents of C:\Users\YourUsername\BUY BOT\stellar-trading-bot to C:\Users\YourUsername\BUYBOT.
+In File Explorer, open C:\Users\YourUsername\BUYBOT\stellar-trading-bot, select all files (Ctrl+A), cut (Ctrl+X), go to C:\Users\YourUsername\BUYBOT, and paste (Ctrl+V).
+Delete the empty buybot folder.
 
 
 
@@ -152,29 +152,32 @@ Edit .env File:
 In VS Code, double-click .env in C:\Users\YourUsername\BUY BOT. If .env doesn’t exist, create it:
 Right-click in the Explorer pane, select “New File,” and name it .env.
 
+*NOTE: SEE .envexample FOR CORRECT .env FORMAT TO POPULATE YOUR OWN VARIABLES* (readme.md screws up the format here)
 
-Copy and paste the following template into .env:SECRET_KEY=your_secret_key_here
+
+Copy and paste the following template into .env:
+```SECRET_KEY=your_secret_key_here
 ASSET_CODE=LMNR
 ASSET_ISSUER=GALUVE2YREE6NU4T2746XL7XORCEY5NVDJ7WADGWANUZWQJZ3PTP5PHB
-TRADE_INTERVAL=60
+TRADE_INTERVAL=30
 BUY_ASSET_AMOUNT=100
 SELL_ASSET_AMOUNT=100
-BUY_SELL_CYCLE=1
+BUY_SELL_CYCLE=1```
 
 
 Alternatively, if an .env.example file is provided, copy it, rename the copy to .env, and edit it.
 Update the following fields:
-SECRET_KEY: Paste your secret key from stellar_keypair.txt.
+```SECRET_KEY: Paste your secret key from stellar_keypair.txt.
 ASSET_CODE: The asset to trade (e.g., LMNR).
 ASSET_ISSUER: The asset issuer’s public key (e.g., for LMNR).
-TRADE_INTERVAL: Seconds between trades (e.g., 60).
+TRADE_INTERVAL: Seconds between trades (e.g., 30).
 BUY_ASSET_AMOUNT: Amount of the asset to buy per trade (e.g., 100 LMNR).
 SELL_ASSET_AMOUNT: Amount of the asset to sell per trade (e.g., 100 LMNR).
 BUY_SELL_CYCLE: Controls the buy/sell pattern:
 1: Buy, sell, buy, sell (alternating).
 2: Buy, buy, sell, buy, buy, sell.
 0: Sell only (no buys).
--1: Buy only (no sells).
+-1: Buy only (no sells).```
 
 
 
@@ -273,4 +276,6 @@ Safety Reminder
 Secret Key: Store .env and stellar_keypair.txt securely. If compromised, someone could access your Stellar account.
 Backup: Save your secret key in a safe place (e.g., password manager).
 Liquidity: Ensure the asset has enough trading activity to avoid failed trades.
+
+
 
