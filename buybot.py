@@ -98,7 +98,7 @@ class TradeBot:
             if available_xlm < 0.6:  # 0.5 for trustline + 0.1 for fee
                 raise ValueError(f"Insufficient XLM for trustline: need 0.6 XLM, available {available_xlm:.7f}")
             operations = [ChangeTrust(asset=self.asset, limit="1000000000.0")]
-            response = self.build_and_submit_transaction(account, operations, memo=f"Add Trust {self.asset_code}")
+            response = self.build_and_submit_transaction(account, operations, memo="Add Trust")
             logger.info(f"Trustline created: {response['hash']}")
             account = self.load_account(public_key)
 
@@ -122,17 +122,26 @@ class TradeBot:
         for path in paths:
             logger.info(f"Path found: {path['source_amount']} XLM for {dest_amount} {self.asset_code} (hops: {len(path['path'])})")
 
-        # Select path with lowest source amount
-        selected_path = min(paths, key=lambda p: float(p["source_amount"]))
+        # Prioritize direct path (hops: 0) if available
+        direct_path = next((p for p in paths if len(p["path"]) == 0), None)
+        if direct_path:
+            selected_path = direct_path
+            logger.info(f"Selected direct path: {selected_path['source_amount']} XLM for {dest_amount} {self.asset_code} (hops: 0)")
+        else:
+            # Fallback to cheapest multi-hop path
+            selected_path = min(paths, key=lambda p: float(p["source_amount"]))
+            logger.info(f"No direct path found. Selected cheapest multi-hop path: {selected_path['source_amount']} XLM for {dest_amount} {self.asset_code} (hops: {len(selected_path['path'])})")
+
         max_source_amount = Decimal(selected_path["source_amount"])
-        slippage = Decimal('0.05')  # 5% slippage
+        # Apply higher slippage for multi-hop paths
+        slippage = Decimal('0.05') if len(selected_path["path"]) == 0 else Decimal('0.10')  # 5% for direct, 10% for multi-hop
         max_source_amount_with_slippage = (max_source_amount * (1 + slippage)).quantize(Decimal('0.0000001'))
         max_source_amount_str = format(max_source_amount_with_slippage, 'f')
 
         if max_source_amount_with_slippage > available_xlm:
             raise ValueError(f"Insufficient XLM: need {max_source_amount_with_slippage:.7f}, available {available_xlm:.7f}")
 
-        # Build and submit transaction with empty path
+        # Build and submit transaction with empty path and no memo
         operations = [
             PathPaymentStrictReceive(
                 send_asset=native_asset,
@@ -143,7 +152,7 @@ class TradeBot:
                 path=[]  # Let Stellar DEX find the best path
             )
         ]
-        response = self.build_and_submit_transaction(account, operations, memo=f"Buy {self.asset_code}")
+        response = self.build_and_submit_transaction(account, operations)  # No memo
         logger.info(f"Buy successful: {response['hash']}")
 
     def perform_sell(self):
@@ -180,7 +189,7 @@ class TradeBot:
         min_dest_amount = (max_dest_amount * (1 - slippage)).quantize(Decimal('0.0000001'))
         min_dest_amount_str = format(min_dest_amount, 'f')
 
-        # Build and submit transaction with empty path
+        # Build and submit transaction with empty path and no memo
         operations = [
             PathPaymentStrictSend(
                 send_asset=self.asset,
@@ -191,7 +200,7 @@ class TradeBot:
                 path=[]  # Let Stellar DEX find the best path
             )
         ]
-        response = self.build_and_submit_transaction(account, operations, memo=f"Sell {self.asset_code}")
+        response = self.build_and_submit_transaction(account, operations)  # No memo
         logger.info(f"Sell successful: {response['hash']}")
 
     def build_and_submit_transaction(self, account, operations, memo=None):
